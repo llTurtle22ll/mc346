@@ -1,3 +1,7 @@
+-- Returns the size of a list
+tam [] = 0
+tam (a:as) = 1 + tam as
+
 -- returns the last item ins a list
 lastItemList (a:as) = if as == []
                       then a
@@ -35,7 +39,7 @@ rangeList n = if n == 0
               else rangeList (n-1) ++ [n]
 
 
--- Reuturn how many times an elemnts appears in a list
+-- Return how many times an elemnts appears in a list
 countElement _ [] = 0
 countElement x (a:as) = if x == a
                  then 1 + countElement x as
@@ -96,6 +100,51 @@ shiftr lista = let
 
 
 -- Shift right n times in a list
-shiftrn n lista = if list
+shiftrn 0 lista = lista
+shiftrn n lista = shiftrn (n-1) (shiftr lista)
 
-main = print (shiftr [2,4,6,8,10])
+
+-- Removes an item from a lista one time only
+remove1 n [] = []
+remove1 n (a:as) = if n == a
+                   then as
+                   else a:remove1 n as
+
+-- Removes an iten from a list all the times it appears
+removeall n [] = []
+removeall n (a:as) = if a == n
+                     then removeall n as
+                     else a:removeall n as
+
+-- Removes an iten from a list the first n times it appears 
+removen num n [] = []
+removen num n (a:as) = if a == num && n /= 0
+                       then removen num (n-1) as
+                       else a:removen num n as
+
+-- Removes an iten from a list the last time it appears
+-- TODO
+
+
+-- Swaps an old item for a new one in a list(one time)
+troca1 old new [] = []
+troca1 old new (a:as) = if a == old
+                        then new:as
+                        else a:troca1 old new as
+
+
+-- Swaps an old item for a new one in a list(all the times)
+trocaall old new [] = []
+trocaall old new (a:as) = if a == old
+                          then new:trocaall old new as
+                          else a:trocaall old new as 
+
+
+-- Swaps an old item for a new one in a list(n times)
+trocan old new n [] = []
+trocan old new n (a:as) = if a == old && n /= 0
+                          then new:trocan old new (n-1) as
+                          else a:trocan old new n as
+
+main = print (trocan 4 3 2 [2,4,6,4,8,4,10,4])
+

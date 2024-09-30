@@ -1,0 +1,16 @@
+% Caso base: uma lista vazia retorna uma lista comprimida vazia
+comprime([], []).
+% Caso para apenas um elemento na lista
+comprime([X], [[X, 1]]).
+% Caso em que os elementos consecutivos são iguais
+comprime([X, X | T], [[X, N1] | R]) :- comprime([X | T], [[X, N] | R]), N1 is N + 1.
+% Caso em que os elementos consecutivos são diferentes
+comprime([X, Y | T], [[X, 1] | R]) :- X \= Y, comprime([Y | T], R).
+
+
+
+% Caso base: uma lista comprimida vazia retorna uma lista expandida vazia
+descomprime([], []).
+% Expande o primeiro elemento [Item, Quantidade] repetindo o item Quantidade vezes
+descomprime([[X, 1] | T], [X | R]) :- descomprime(T, R).
+descomprime([[X, N] | T], [X | R]) :- N > 1, N1 is N - 1, descomprime([[X, N1] | T], R).
